@@ -13,6 +13,7 @@
         }
 
         #wrapper {
+            
             width: 100vw;
             height: 100vh;
             overflow-y: scroll;
@@ -530,13 +531,18 @@
             background: pink;
             overflow-y: scroll;
             z-index:9999;
-            display: none;
+           display: none;
         }
         
        
         
-        #wrapper{
-          //  overflow:hidden;
+        
+        .flex-btw{
+            display: flex;
+            justify-content: space-between;
+        }
+        .pl20{
+            padding-left:20px;
         }
     </style>
 </head>
@@ -567,47 +573,56 @@
     </div>
     
     
-    <!--div id="profile">
-         
-                <h2>Click on any image tiles to replace an image</h2>
-                <input type="file" id="media" style="display:none">
+    <div id="profile">
+                <div class="container flex-btw">
+                <h2>Your pictures</h2>
+                <button class="btn" onclick="hideProfile()">Back</button>
+                </div>
+                <input type="file" id="media2" style="display:none">
                 <div class="add-media-group">
-                    <div class="media-child" id="media-card-btn">
+                    <div class="media-child" id="media-card-btn2">
                         Click to upload picture
                     </div>
-                    <div class="media-child uploaded">
+                    <div class="media-child uploaded2">
 
                     </div>
-                    <div class="media-child uploaded">
+                    <div class="media-child uploaded2">
 
                     </div>
-                    <div class="media-child uploaded">
+                    <div class="media-child uploaded2">
 
                     </div>
 
 
                 </div>
-                <h3>Your profile details</h3>
+                <h3 class="pl20">Your profile details</h3>
                   <div class="card-lister">
+                     <div>Fullname</div>
+                     <div id="profile-fullname"></div>
+                 </div>
+                    <div class="card-lister">
+                     <div>Date of birth</div>
+                     <div id="profile-dob"></div>
+                 </div>
+                   <div class="card-lister">
                      <div>Location</div>
-                     <div>Ibadan, Nigeria</div>
+                     <div id="profile-location"></div>
+                 </div>
+                   <div class="card-lister">
+                     <div>Interested in</div>
+                     <div id="profile-lookingfor"></div>
                  </div>
                  
                    <div class="card-lister">
-                     <div>Location</div>
-                     <div><input type="text" value="Ibadan, Nigeria"></div>
-                 </div>
-                 
-                   <div class="card-lister">
-                     <div>Location</div>
-                     <div>Ibadan, Nigeria</div>
+                     <div>About</div>
+                     <div id="profile-about"></div>
                  </div>
                 <div class="button-group">
                     <button class="btn" type="button" onclick="delete_account()">Delete Account</button>
                     <button class="btn red" type="submit" class="submit" onclick="fakeLogout()">Logout</button>
                 </div>
             
-    </div-->
+    </div>
     
     
     <div id="wrapper">
@@ -762,7 +777,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" onclick="fakeLogout()">
+                <a href="#" onclick="showProfile()">
                    <i class="fa fa-user"></i>
                     <div>Profile</div>
                 </a>
@@ -770,14 +785,16 @@
         </ul>
     </nav>
     <script>
+    /*
+    var pk = document.getElementById("profile"),pkp = pk.parentNode;
+    pk.remove();
+    */
     function fakeLogout(){
         localStorage.setItem("token",null);
         location.reload();
     }
-    function delete_account(){
-        
-    }
-        const webData = (!JSON.parse(localStorage.getItem('web-data')) == null) ? JSON.parse(localStorage.getItem('web-data')) : {};
+    
+   const webData = (!JSON.parse(localStorage.getItem('web-data')) == null) ? JSON.parse(localStorage.getItem('web-data')) : {};
         window.onload = function () {
 
             if (localStorage.getItem("token") != null && localStorage.getItem("token") != "undefined") {
@@ -816,11 +833,13 @@
                                     swapAuth('sign-up', 'let-know-you');
                                     break;
                                 case "add-media":
-                                    swapAuth('sign-in', 'add-media');
+                    
+                       swapAuth('sign-in', 'add-media');
                                     swapAuth('let-know-you', 'add-media');
                                     break;
                                 case "home":
                                     removeAuth();
+                    
                                     break;
                                 
                             }
@@ -830,8 +849,32 @@
                                 document.getElementById("let-know-you-usersname").innerText = res.user.fullname;
                             }
                             if (res?.data && res?.redirect == "home") {
-                              
                                 
+     if (res?.user.media && document.getElementById("profile")) {
+         
+        if (res?.user.media.split(",").length == 4) {
+            
+            document.getElementById("media-card-btn2").classList.add("uploaded2");
+                                    document.getElementById("media-card-btn2").setAttribute("id", "");
+
+             }
+                 let uploaded = document.getElementsByClassName("uploaded2");
+               
+                                for (let i = 0; i < res?.user.media.split(",").length; i++){
+            uploaded[i].innerHTML = `<div class="delete_media" onclick='delete_media(${i})'><i class='fa fa-trash-o'></i></div>`;               uploaded[i].style.backgroundImage = `url('https://lin.com.ng/love/media/${res?.user.media.split(",")[i]}')`;
+                                    uploaded[i].style.backgroundPosition = "center";
+                                    uploaded[i].style.backgroundSize = "cover";
+                                }
+
+    }                               
+                                
+                              
+   document.getElementById("profile-fullname").innerText = res.user.fullname;     
+   document.getElementById("profile-dob").innerText = res.user.dob; 
+   document.getElementById("profile-location").innerText = res.user.state+", "+res.user.city+".";  
+   document.getElementById("profile-lookingfor").innerText = res.user.lookingfor; 
+   document.getElementById("profile-about").innerText = res.user.about; 
+   
    res?.data.forEach((item)=>{
      let play = Play(item); 
      document.getElementById("wrapper").appendChild(play);
@@ -856,6 +899,12 @@
                                 }
 
                             }
+    
+                              
+                       
+                       
+                            
+                            
                         }
                          document.getElementById("loading").style.display = "none";
                     }
@@ -963,7 +1012,7 @@
 
                 }
                 this.setAttribute("processing", 0);
-                console.log(res);
+                
                 this.querySelector('.submit').disabled = false;
                 this.querySelector('.submit').style.background = "#303030";
                 this.querySelector('.submit').innerHTML = btnContent;
@@ -977,6 +1026,9 @@
                          localStorage.setItem('token', res.token);
                             break;
                         case "add-media":
+                             
+                           
+                    
                             swapAuth('sign-in', 'add-media');
                             swapAuth('let-know-you', 'add-media');
                          localStorage.setItem('token', res.token);
@@ -1007,7 +1059,7 @@
         var l = document.getElementsByClassName("likie");
         for (let g of l) {
             g.onclick = function () {
-                console.log(this.getAttribute("liked"));
+                
                 if (this.getAttribute("liked") == null || this.getAttribute("liked") == 0) {
                     this.setAttribute("liked", "1");
                     this.children[0].style.display = "block";
@@ -1045,6 +1097,7 @@
         }
 
         function removeAuth(d = true) {
+             
             for (let i of document.getElementsByClassName("auth")) {
 
                 i.style.display = "none";
@@ -1078,7 +1131,8 @@
                 body: data
             });
             const res = await req.json();
-            console.log(res);
+            
+            
             btn.setAttribute("working", 0);
             btn.innerText = "Click to upload picture";
             if (res.status != 1) {
@@ -1095,6 +1149,51 @@
 
             }
         }
+     
+    if(document.getElementById("media-card-btn2")){
+            if (document.getElementById("media-card-btn2").getAttribute("working") == null || document.getElementById("media-card-btn2").getAttribute("working") == 0)
+                document.getElementById("media-card-btn2").onclick = () => document.getElementById("media2").click();
+        }
+        document.getElementById("media2").onchange = async function () {
+            var btn = document.getElementById("media-card-btn2");
+            btn.setAttribute("working", 1);
+            btn.previousText = "Click to upload picture";
+            btn.innerText = "Uploading...";
+            const data = new FormData();
+            data.append('media', this.files[0]);
+            const req = await fetch('https://lin.com.ng/love/add-media', {
+                method: "POST",
+                headers: {
+                    "token": localStorage.getItem("token")
+                },
+                body: data
+            });
+            const res = await req.json();
+            
+            
+            btn.setAttribute("working", 0);
+            btn.innerText = "Click to upload picture";
+            if (res.status != 1) {
+                displayError(res.error);
+            } else {
+
+                const medias = res.current_media.split(",");
+                const currentMedia = document.getElementsByClassName("uploaded2")[medias.length - 1];
+
+               currentMedia.innerHTML =  `<div class="delete_media" onclick='delete_media(${medias.length - 1})'><i class='fa fa-trash-o'></i></div>`;            
+                currentMedia.style.backgroundImage = `url('https://lin.com.ng/love/media/${medias[medias.length - 1]}')`;
+                currentMedia.style.backgroundPosition = "center";
+                currentMedia.style.backgroundSize = "cover";
+
+            }
+        }
+            
+     
+     
+     
+     
+        
+        
         function displayError(er) {
             document.getElementById("error-card").innerHTML = "";
             let d = 0;
@@ -1244,13 +1343,13 @@
     bbtn.classList.add("close-details");
     bbtn.setAttribute("data-id",`card_${data.user_id}`);
     bbtn.innerText = "Close";
-    bbtn.onclick =  function () {
+    bbtn.onclick = function() {
                     let t = document.getElementById(this.getAttribute("data-id"));
 
                     t.style.animation = "none";
                     t.style.animation = `hidecard 1s forwards`;
                     t.style.display = "none";
-                    console.log(t);
+                    
 
                 }
     cn.appendChild(bbtn);
@@ -1339,7 +1438,7 @@ document.getElementById("close-pm").onclick = function(){
     
 }
 async function delete_media(m){
-    
+  
     let req = await fetch("https://lin.com.ng/love/emapi/delete_media",{
         method:"POST",
         headers:{
@@ -1353,8 +1452,12 @@ async function delete_media(m){
     
     let res = await req.json();
     if(res.status == 1){
+
 document.getElementsByClassName("uploaded")[m].style.backgroundImage = 'none';
-document.getElementsByClassName("uploaded")[m].innerHTML = '';
+document.getElementsByClassName("uploaded")[m].innerHTML = '';  
+ document.getElementsByClassName("uploaded2")[m].style.backgroundImage = 'none';
+document.getElementsByClassName("uploaded2")[m].innerHTML = '';   
+
     }
 }
 
@@ -1372,6 +1475,16 @@ async function delete_account(){
     if(res.status == 1){
     fakeLogout();
     }
+}
+
+function showProfile(){
+    document.getElementById("profile").style.display = "block";
+    document.getElementById("wrapper").style.overflowY = "hidden";
+}
+
+function hideProfile(){
+    document.getElementById("profile").style.display = "none";
+    document.getElementById("wrapper").style.overflowY = "scroll";
 }
     </script>
 </body>
