@@ -193,11 +193,8 @@
             left: 0;
             display: flex;
             width: 95vw;
-
             justify-content: space-evenly;
             align-items: center;
-
-
             backdrop-filter: blur(3px);
 
         }
@@ -1140,6 +1137,7 @@
             } else {
 
                 const medias = res.current_media.split(",");
+                
                 const currentMedia = document.getElementsByClassName("uploaded")[medias.length - 1];
 
                currentMedia.innerHTML =  `<div class="delete_media" onclick='delete_media(${medias.length - 1})'><i class='fa fa-trash-o'></i></div>`;            
@@ -1233,11 +1231,6 @@
      cover.classList.add("card-images");
      
     cover.style.backgroundImage = 'url("https://lin.com.ng/love/media/'+item+'")';
-    
-    
-    
-    
-    
     
     playCover.appendChild(cover); 
      });
