@@ -506,6 +506,7 @@
       
             if(a?.data.length > 0){
                 list(a?.data); 
+                localStorage.setItem('list-size', a?.unread);
             }
  
        });
@@ -655,7 +656,7 @@
              if(localStorage.getItem("opened-chat") == null || localStorage.getItem("opened-chat") == ""){
                  
                      uiR("https://lin.com.ng/love/emapi/live-messages", "POST", {
-                         "": true
+                         "listSize": localStorage.getItem('list-size')
                      }).then(res=>{
                          console.log(document.getElementsByClassName('pc-lister').length)
                          console.log(res);
