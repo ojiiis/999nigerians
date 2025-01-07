@@ -443,7 +443,7 @@
           });
         
            uiR("https://lin.com.ng/love/emapi/send_message",'POST',data).then((a)=>{
-               console.log(a);
+              
         document.getElementById(id).setAttribute("data-mid",a.data.mid);
   
       document.getElementById(id).children[2].children[0].innerText = a.data.time;
