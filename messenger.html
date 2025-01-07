@@ -391,7 +391,7 @@
            
            for(let i = 0; i < d?.length ; i++){
                let data = d[i];
-               let ur = ` <span id="c-${data.list_id}"><i>${data.unread_messages_count}</i></span>`;
+               let ur = `<span id="c-${data.list_id}"><i>${data.unread_messages_count}</i></span>`;
     let    list = `<a class="pc-lister" href="javascript:void(0)" onclick="cb_show(this)" data-id="${data.list_id}"><div class="avi" style="background-image:url('https://lin.com.ng/love/media/${data.avi}');background-size:cover;background-position:center"></div>
                         <div class="details">
                       <div class="top"><h2>${data.fullname}</h2> <small>${data.last_message_date}</small></div>
@@ -657,6 +657,7 @@
                      uiR("https://lin.com.ng/love/emapi/live-messages", "POST", {
                          "": true
                      }).then(res=>{
+                         console.log(document.getElementsByClassName('pc-lister').length)
                          console.log(res);
                      });
                    
