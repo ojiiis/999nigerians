@@ -1,0 +1,290 @@
+<html>
+
+<head>
+    <!-- Primary Meta Tags -->
+    <title>999Nigerians - Connecting 999 Nigerians Yearly</title>
+    <meta name="description"
+        content="999Nigerians is a unique dating platform connecting 999 random people across Nigeria every year. Limited slots available—join now!">
+    <meta name="keywords"
+        content="999Nigerians, Nigerian dating app, exclusive dating platform, connect Nigerians, love in Nigeria">
+    <meta name="author" content="999Nigerians">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="999Nigerians - Connecting 999 Nigerians Yearly">
+    <meta property="og:description"
+        content="Join 999Nigerians, the exclusive platform connecting 999 random Nigerians each year. Limited slots—don't miss out!">
+    <meta property="og:image"
+        content="https://ojiiis.github.io/999nigerians/images/fc3eec6e-9429-4f2a-9391-2e7fc0434d0d.webp">
+    <meta property="og:url" content="https://ojiiis.github.io/999nigerians">
+    <meta property="og:site_name" content="999Nigerians">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+
+<body>
+    <div id="network-error">
+        <img src="images/loading.gif">
+        <h3>Some Error</h3>
+        <div class="button-group">
+            <button>Retry</button>
+        </div>
+    </div>
+
+
+    <div id="loading"><img src="images/loading.gif"></div>
+    <div id="error-card">
+
+    </div>
+    <div id="pm-div">
+        <div id="pm-div-center">
+            <input type="text" placeholder="Type your message." id="pm-msg">
+            <div class="button-group">
+                <button id="pm-btn" data-pid="">Send messege</button>
+                <button id="close-pm" class="red">Close</button>
+            </div>
+            <div id="pm-msg-callback">Message Sent</div>
+        </div>
+    </div>
+
+
+    <div id="profile">
+        <div class="container flex-btw">
+            <h2>Your pictures</h2>
+            <button class="btn" onclick="hideProfile()">Back</button>
+        </div>
+        <input type="file" id="media2" style="display:none">
+        <div class="add-media-group">
+            <div class="media-child" id="media-card-btn2">
+                Click to upload picture
+            </div>
+            <div class="media-child uploaded2">
+
+            </div>
+            <div class="media-child uploaded2">
+
+            </div>
+            <div class="media-child uploaded2">
+
+            </div>
+
+
+        </div>
+        <h3 class="pl20">Your profile details</h3>
+        <div class="card-lister">
+            <div>Fullname</div>
+            <div id="profile-fullname"></div>
+        </div>
+        <div class="card-lister">
+            <div>Date of birth</div>
+            <div id="profile-dob"></div>
+        </div>
+        <div class="card-lister">
+            <div>Location</div>
+            <div id="profile-location"></div>
+        </div>
+        <div class="card-lister">
+            <div>Interested in</div>
+            <div id="profile-lookingfor"></div>
+        </div>
+
+        <div class="card-lister">
+            <div>About</div>
+            <div id="profile-about"></div>
+        </div>
+        <div class="button-group">
+            <button class="btn" type="button" onclick="delete_account()">Delete Account</button>
+            <button class="btn red" type="submit" class="submit" onclick="fakeLogout()">Logout</button>
+        </div>
+
+    </div>
+
+
+    <div id="wrapper">
+        <div class="novel-cards auth" id="sign-in">
+            <form class="auth-form" action="https://lin.com.ng/love/signin">
+                <h2>Sign in</h2>
+
+                <div class="input-group">
+                    <label>Email address</label>
+                    <input type="text" placeholder="lovingyouwithallmy@andmoney.com" name="email" required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" value="your password" name="password" required>
+                </div>
+                <div class="input-group">
+                    <sub>
+                        <p>Don't have an accout? <a href="javascript:void(0)"
+                                onclick="swapAuth('sign-in','sign-up')">sign up here</a></p>
+                    </sub>
+                    <button type="submit" class="submit">Sign in</button>
+                </div>
+            </form>
+        </div>
+        <div class="novel-cards auth" id="sign-up">
+            <form class="auth-form" action="https://lin.com.ng/love/signup">
+                <h2>Sign up</h2>
+                <div class="input-group">
+                    <label>Fullname</label>
+                    <input type="text" placeholder="Juliet Romeo" name="fullname" required>
+                </div>
+                <div class="input-group">
+                    <label>Date of birth</label>
+                    <input type="date" placeholder="" name="dob" required>
+                </div>
+                <input type="hidden" name="state" id="state">
+                <input type="hidden" name="city" id="city">
+                <div class="input-group">
+                    <label>Where do you live?</label>
+                    <select id="location" data-state="state" required>
+                        <option value=""> Select an option </option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Email address</label>
+                    <input type="text" placeholder="lovingyouwithallmy@andmoney.com" name="email">
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" value="your password" name="password">
+                </div>
+                <div class="input-group">
+                    <sub>
+                        <p>Already have an accout? <a href="javascript:void(0)"
+                                onclick="swapAuth('sign-up','sign-in')">sign in here</a></p>
+                    </sub>
+                    <button type="submit" class="submit">Sign up</button>
+                </div>
+            </form>
+        </div>
+
+
+        <div class="novel-cards auth" id="let-know-you">
+            <form class="auth-form" action="https://lin.com.ng/love/let-know-you">
+                <h2><span id="let-know-you-usersname"></span>, Let us know you!</h2>
+                <div class="input-group">
+                    <label>Gender</label>
+                    <select name="gender">
+                        <option value=""> Select an option </option>
+                        <option value="Male"> Male</option>
+                        <option value="Female"> Female</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Who are you interested in seeing?</label>
+                    <select name="lookingfor">
+                        <option value=""> Select an option </option>
+                        <option value="Male"> Male</option>
+                        <option value="Female"> Female</option>
+                        <option value="Both Male & Female"> Both Male & Female</option>
+                    </select>
+                </div>
+
+
+
+                <div class="input-group">
+                    <label>Provide a brief introduction about yourself</label>
+                    <textarea name="about" rows="10"
+                        placeholder="Hello, I am a passionate individual with a love for learning and collaboration."></textarea>
+                </div>
+
+                <div class="input-group">
+                    <button type="submit" class="submit">Continue</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="novel-cards auth" id="add-media">
+            <form class="auth-form" action="https://lin.com.ng/love/">
+                <h2>Add at least two images of youself</h2>
+                <input type="file" id="media" style="display:none">
+                <div class="add-media-group">
+                    <div class="media-child" id="media-card-btn">
+                        Click to upload picture
+                    </div>
+                    <div class="media-child uploaded">
+
+                    </div>
+                    <div class="media-child uploaded">
+
+                    </div>
+                    <div class="media-child uploaded">
+
+                    </div>
+
+
+                </div>
+                <div class="button-group">
+                    <button type="button" onclick="swapAuth('add-media','let-know-you')">Back</button>
+                    <button type="submit" class="submit">Continue</button>
+                </div>
+            </form>
+        </div>
+        <div class="novel-cards play">
+            <div class="novel-cards-full-inner">
+                <h2>Scroll up and down to browse users</h2>
+                <h2>Double tap on the screen to show navigation menu</h2>
+            </div>
+        </div>
+
+
+    </div>
+    <nav id="nav">
+        <ul>
+            <li>
+                <a href="#" class="active">
+                    <i class="fa fa-user"></i>
+                    <div>Meet</div>
+                </a>
+            </li>
+            <!--li>
+                <a href="#">
+                     <i class="fa fa-search"></i>
+                    <div>Search</div>
+                </a>
+            </li-->
+            <li>
+                <a href="messenger.html">
+                    <i class="fa fa-comment"></i>
+                    <div>Messages</div>
+                </a>
+            </li>
+            <li>
+                <a href="#" onclick="showProfile()">
+                    <i class="fa fa-user"></i>
+                    <div>Profile</div>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <a href="messenger.html" id="message-teller">
+        <div id="message-teller-inner">
+            <i class="fa fa-envelope"></i>
+        </div>
+    </a>
+    <script src="assets/js/main.js"></script>
+    <script>
+        setInterval(async () => {
+            let d = new Date().getTime();
+            const req = await fetch("https://lin.com.ng/love/live/?t=" + d, {
+                method: "POST",
+                headers: {
+                    "token": localStorage.getItem("token"),
+                    "Content-Type": "application/json"
+                },
+                body: ""
+            });
+            const res = await req.json();
+            if (res.data.unread > 0) {
+                document.getElementById('message-teller-inner').innerHTML = `<span>${res.data.unread}</span><i class="fa fa-envelope"></i>`;
+            }
+        }, 2000);
+    </script>
+</body>
+
+</html>
