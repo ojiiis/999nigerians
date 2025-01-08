@@ -7,14 +7,18 @@
             height: 100vh;
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
+            background-image: url('images/webbg1-small.webp');
         }
         #app{
             width: 100%;
             height:100%;
+            max-width: 900px;
+           margin: 0 auto;
             position: relative;
         }
             .container{
                 padding:10px 20px;
+                background: #f7f7f7;
             }
             #chat-list{
                 width: 100%;
@@ -29,6 +33,7 @@
                 padding:1% 5%;
                 height: 7%;
                 display: flex;
+                background: #f7f7f7;
             
             }
              #peeps-online a{
@@ -92,7 +97,7 @@
                width: 10px;
                height: 10px;
                border-radius: 50%;
-               background: yellow;
+               background: #303030;
             }
            #peeps-online #inner .peeps.offline:before{
                content:"";
@@ -103,7 +108,7 @@
                width: 10px;
                height: 10px;
                border-radius: 50%;
-               background: red;
+               background: #ddd;
             }
           
             #search-peep{
@@ -111,6 +116,7 @@
                 outline:0;
                 background: none;
                 width:100%;
+                
             }
             #sp{
                 height: 3%;
@@ -418,9 +424,9 @@
           </div> 
           `;
          
-    document.getElementById("peep-chat-list").innerHTML = document.getElementById("peep-chat-list").innerHTML + list;
+    document.getElementById("peep-chat-list").innerHTML = list + document.getElementById("peep-chat-list").innerHTML;
     
-       document.getElementById("app").innerHTML = document.getElementById("app").innerHTML + cboard;
+       document.getElementById("app").innerHTML = cboard + document.getElementById("app").innerHTML;
            }
            
        }   
@@ -658,8 +664,26 @@
                      uiR("https://lin.com.ng/love/emapi/live-messages", "POST", {
                          "listSize": localStorage.getItem('list-size')
                      }).then(res=>{
-                         console.log(document.getElementsByClassName('pc-lister').length)
-                         console.log(res);
+                     
+                         var pc = document.getElementsByClassName('pc-lister');
+                         let packs = [];
+                         if (res.status && res.data.length > 0) {
+                            
+                             for (let i = 0; i < res.data.length; i++) {
+                                 packs.push(res.data[i].list_id);
+                             }
+                             for (let i = 0; i < pc.length; i++) {
+                                 if (packs.includes(pc[i].getAttribute('data-id'))) {
+                                    pc[i].remove();
+                                    document.getElementById(pc[i].getAttribute('data-id')).remove();
+                                 }
+                             }
+                             list(res.data);
+                             localStorage.setItem('list-size', localStorage.getItem('list-size')+ res.data.length);
+                         }
+                        // console.log(packs);
+
+
                      });
                    
             }else{
