@@ -393,15 +393,15 @@
             return "temp"+Math.random().toString().split(".")[1];
         }
         
-       function list(d){
+       function list(d,m=''){
            
            for(let i = 0; i < d?.length ; i++){
                let data = d[i];
                let ur = `<span id="c-${data.list_id}"><i>${data.unread_messages_count}</i></span>`;
-    let    list = `<a class="pc-lister" href="javascript:void(0)" onclick="cb_show(this)" data-id="${data.list_id}"><div class="avi" style="background-image:url('https://lin.com.ng/love/media/${data.avi}');background-size:cover;background-position:center"></div>
+    let    list = `<a class="pc-lister" id="list-${data.list_id}" href="javascript:void(0)" onclick="cb_show(this)" data-id="${data.list_id}"><div class="avi" style="background-image:url('https://lin.com.ng/love/media/${data.avi}');background-size:cover;background-position:center"></div>
                         <div class="details">
                       <div class="top"><h2>${data.fullname}</h2> <small>${data.last_message_date}</small></div>
-                      <div class="bottom"><p>${data.last_message}</p>
+                      <div class="bottom"><p id="lm-${data.list_id}">${data.last_message}</p>
                ${(data.unread_messages_count > 0)?ur:''}
                       </div>
                         </div></a>`;
@@ -417,16 +417,22 @@
                  ${loadchat(data.init_messages)}
              </div>
              <form class="input" onsubmit="send_chat(this,event)" data-id="${data.list_id}">
-                  <input name="message" placeholder="Start typing..." type="text">
+                  <input name="message" placeholder="Start typing..." type="text" autocomplete="off">
                   <input name="pid" type="hidden" value="${data.user_id}">
                   <button>Send</button>
              </form>
           </div> 
           `;
-         
-    document.getElementById("peep-chat-list").innerHTML = list + document.getElementById("peep-chat-list").innerHTML;
-    
-       document.getElementById("app").innerHTML = cboard + document.getElementById("app").innerHTML;
+         if(m == 'a'){
+             document.getElementById("peep-chat-list").innerHTML = list + document.getElementById("peep-chat-list").innerHTML;
+
+             document.getElementById("app").innerHTML = cboard + document.getElementById("app").innerHTML;
+         }else{
+              document.getElementById("peep-chat-list").innerHTML =   document.getElementById("peep-chat-list").innerHTML + list;
+
+             document.getElementById("app").innerHTML =   document.getElementById("app").innerHTML + cboard;
+         }
+   
            }
            
        }   
@@ -435,8 +441,9 @@
            e.preventDefault();
           const fd = new FormData(el),data = {};
           const id = tempId();
+          const text = el.children[0].value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
          let msg = msgCard({
-           "message":el.children[0].value.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
+           "message": text,
            "id":id,
            "rr":"Sending..."
          });
@@ -451,7 +458,7 @@
            uiR("https://lin.com.ng/love/emapi/send_message",'POST',data).then((a)=>{
               
         document.getElementById(id).setAttribute("data-mid",a.data.mid);
-  
+        document.getElementById('lm-'+ a.data.list_id).innerText = a.data.last_message;
       document.getElementById(id).children[2].children[0].innerText = a.data.time;
     document.getElementById(id).children[2].children[1].innerText = "sent";
     
@@ -512,7 +519,9 @@
       
             if(a?.data.length > 0){
                 list(a?.data); 
+                localStorage.setItem("opened-chat","");
                 localStorage.setItem('list-size', a?.unread);
+                localStorage.setItem('list-at', new Date().getTime());
             }
  
        });
@@ -662,26 +671,28 @@
              if(localStorage.getItem("opened-chat") == null || localStorage.getItem("opened-chat") == ""){
                  
                      uiR("https://lin.com.ng/love/emapi/live-messages", "POST", {
-                         "listSize": localStorage.getItem('list-size')
+                         "listSize": localStorage.getItem('list-size'),
+                         "listAt": localStorage.getItem('list-at')
                      }).then(res=>{
                      
                          var pc = document.getElementsByClassName('pc-lister');
-                         let packs = [];
+                       
                          if (res.status && res.data.length > 0) {
-                            
+                            console.log(res);
                              for (let i = 0; i < res.data.length; i++) {
-                                 packs.push(res.data[i].list_id);
+                                document.getElementById(res.data[i].list_id).remove();
+                                 document.getElementById('list-'+ res.data[i].list_id).remove();
+                              
                              }
-                             for (let i = 0; i < pc.length; i++) {
-                                 if (packs.includes(pc[i].getAttribute('data-id'))) {
-                                    pc[i].remove();
-                                    document.getElementById(pc[i].getAttribute('data-id')).remove();
-                                 }
-                             }
-                             list(res.data);
-                             localStorage.setItem('list-size', localStorage.getItem('list-size')+ res.data.length);
+
+                         
+                              
+                             list(res.data,'a');
+                             localStorage.setItem('list-at', new Date().getTime());
+                             let newD = res.data.length - 1;
+                             localStorage.setItem('list-size', parseInt(localStorage.getItem('list-size')) + newD);
                          }
-                        // console.log(packs);
+                       
 
 
                      });
