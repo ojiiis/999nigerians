@@ -57,7 +57,7 @@
           background-size: cover;
           background-repeat: no-repeat;
           position: relative;
-          z-index:999999999999999;
+          z-index:99;
       }
 
       .auth:before {
