@@ -364,9 +364,9 @@
 
  .msg-card p {
      padding: 10px;
-     background: pink;
+     background:#ddd ;
      border-radius: 0 10px 10px 10px;
-     float: left;
+     float: right;
  }
 
  .msg-card span {
@@ -374,19 +374,20 @@
      display: block;
      margin-top: -10px;
      position: absolute;
-     left: 0;
+    right: 0;
+    font-size: 12px;
  }
 
  .msg-card.other p {
 
-     float: right;
-     background: #ddd;
+     float: left;
+     background:pink ;
      border-radius: 10px 0 10px 10px;
  }
 
  .msg-card.other span {
-     left: auto;
-     right: 0;
+    right: auto;
+    left: 0;
  }
 
  .center-msg {
